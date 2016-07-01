@@ -1,0 +1,42 @@
+{
+  "name": "dependencaches",
+  "version": "1.0.0-beta",
+  "description": "Dependencies Cache for npm",
+  "main": "index.js",
+  "bin": {
+    "dependencaches": "cli/index.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "docopt": "^0.6.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.9.0",
+    "source-map-support": "^0.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hax/dependencaches.git"
+  },
+  "keywords": [
+    "npm",
+    "dependencies",
+    "npm-cache"
+  ],
+  "author": "hax <johnhax@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hax/dependencaches/issues"
+  },
+  "homepage": "https://github.com/hax/dependencaches#readme"
+}
