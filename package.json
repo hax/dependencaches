@@ -1,6 +1,6 @@
 {
   "name": "dependencaches",
-  "version": "1.0.0-beta",
+  "version": "1.0.0-emc2",
   "description": "Dependencies Cache for npm",
   "main": "index.js",
   "files": [
