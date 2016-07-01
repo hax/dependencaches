@@ -1,8 +1,13 @@
 {
   "name": "dependencaches",
-  "version": "1.0.0-cool",
+  "version": "1.0.0-beta",
   "description": "Dependencies Cache for npm",
   "main": "index.js",
+  "files": [
+    "cli/",
+    "lib/",
+    "src/"
+  ],
   "bin": {
     "dependencaches": "cli/index.js"
   },
