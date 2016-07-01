@@ -5,6 +5,7 @@ exports.load = function (m) {
 	} else { // dev env
 		console.info('dependencaches development version\n')
 		require('source-map-support').install()
+		require('babel-polyfill')
 		require('babel-register')
 		return require('./src/' + m)
 	}
