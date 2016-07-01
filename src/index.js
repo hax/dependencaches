@@ -19,7 +19,7 @@ export default function command({
 		console.info('no change')
 	} else {
 		console.info('deps changed')
-		sys('rm -rf node_modules && ln -s "' + target + '" node_modules')
+		sys('rm -rf node_modules')
 	}
 	if (mkdirp(target)) {
 		let cmd
@@ -27,7 +27,10 @@ export default function command({
 		else if (update) cmd = 'update'
 		console.info('installing...')
 		try {
-			sys('npm ' + cmd + ' && chmod -R g+w "' + target + '"')
+			sys(`npm ${cmd}
+&& chmod -R g+w node_modules
+&& mv node_modules "${target}"
+&& ln -s "${target}" node_modules`)
 		} catch (e) {
 			console.error(e)
 			sys('rm -rf "' + target + '"')
@@ -36,7 +39,7 @@ export default function command({
 	} else if (update) {
 		console.info('updating...')
 		try {
-			sys('npm update')
+			sys(`ln -s "${target}" node_modules && npm update`)
 		} catch (e) {
 			console.error(e)
 			sys('rm -rf "' + target + '"')
