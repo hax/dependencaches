@@ -13,38 +13,40 @@ export default function command({
 	// console.log('deps:', s)
 	const hash = sha1(s)
 	console.info('hash of deps:', hash)
-	const target = joinPath(cacheDirectory, 'npm', hash, 'node_module')
+	const target = joinPath(cacheDirectory, 'npm', hash)
+	const targetPath = joinPath(target, 'node_modules')
 	const storePath = currentStorePath()
-	if (storePath === target) {
+	if (storePath === targetPath) {
 		console.info('no change')
-	} else {
-		console.info('deps changed')
-		sys('rm -rf node_modules')
+		return
 	}
-	if (mkdirp(target)) {
+
+	console.info('deps changed')
+	sys('rm -rf node_modules')
+
+	if (mkdirp(targetPath)) {
 		let cmd
 		if (install) cmd = 'install'
 		else if (update) cmd = 'update'
 		console.info('installing...')
 		try {
-			sys(`npm ${cmd}
-&& chmod -R g+w node_modules
-&& mv node_modules "${target}"
-&& ln -s "${target}" node_modules`)
+			sys(`npm ${cmd} && chmod -R g+w node_modules && mv node_modules "${target}" && ln -s "${targetPath}" node_modules`)
 		} catch (e) {
 			console.error(e)
-			sys('rm -rf "' + target + '"')
+			sys('rm -rf "' + targetPath + '"')
 			process.exit(1)
 		}
 	} else if (update) {
 		console.info('updating...')
 		try {
-			sys(`ln -s "${target}" node_modules && npm update`)
+			sys(`ln -s "${targetPath}" node_modules && npm update`)
 		} catch (e) {
 			console.error(e)
-			sys('rm -rf "' + target + '"')
+			sys('rm -rf "' + targetPath + '"')
 			process.exit(1)
 		}
+	} else {
+		sys(`ln -s "${targetPath}" node_modules`)
 	}
 }
 
@@ -62,7 +64,7 @@ function currentStorePath() {
 	try {
 		return realpathSync('node_modules')
 	} catch (e) {
-		console.warn(e)
+		// console.warn(e)
 		return null
 	}
 }
