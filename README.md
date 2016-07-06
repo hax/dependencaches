@@ -23,8 +23,10 @@ dependencaches --cacheDirectory=/home/cache install  # install using /home/cache
 
 ## Limitations
 
+- Not support Win32
 - Currently only support npm, no bower/jspm/composer...
-- No compression (achieving)
+- Currently only implement symlink
+- No compression
 
 ## TODO
 
