@@ -17,6 +17,5 @@ npm install -g dependencaches
 
 ```sh
 dependencaches install  # try to install
-dependencaches update   # try to update (same as npm update)
 dependencaches --cacheDirectory=/home/cache install  # install using /home/cache as cache directory
 ```
