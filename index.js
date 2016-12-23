@@ -1,5 +1,5 @@
 exports.load = function (m) {
-	if (/[/\\]node_modules[/\\]dependencaches$/.test(__dirname)) {
+	if (/[/\\]node_modules[/\\]/.test(__dirname)) {
 		require('babel-polyfill')
 		return require('./lib/' + m)
 	} else { // dev env
