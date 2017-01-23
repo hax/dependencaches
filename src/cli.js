@@ -3,9 +3,7 @@ import {readFileSync} from 'fs'
 import pack from '../package'
 import command from '.'
 
-void function () {
-
-	const options = normalizeOptions(docopt(`
+const options = normalizeOptions(docopt(`
 Dependencies Cache
 
 Usage:
@@ -19,14 +17,12 @@ Options:
   -c <dir> --cacheDirectory=<dir>    Cache directory
 `))
 
-	if (options.version) {
-		console.log(pack.name, pack.version)
-	} else {
-		// console.log(options)
-		command(options)
-	}
-
-}()
+if (options.version) {
+	console.log(pack.name, pack.version)
+} else {
+	// console.log(options)
+	command(options)
+}
 
 function normalizeOptions(docopt) {
 	const opt = {}
