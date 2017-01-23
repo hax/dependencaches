@@ -1,5 +1,5 @@
 import {join as joinPath} from 'path'
-import {readFileSync, statSync, realpathSync} from 'fs'
+import {readFileSync, existsSync, realpathSync} from 'fs'
 import {homedir} from 'os'
 
 export default function command({
@@ -24,7 +24,8 @@ export default function command({
 	console.info('deps changed')
 	sys('rm -rf node_modules')
 
-	if (mkdirp(targetPath)) {
+	if (!existsSync(targetPath)) {
+		sys('mkdir -p "' + targetPath + '"')
 		let cmd
 		if (install) cmd = 'install'
 		else if (update) cmd = 'update'
@@ -47,16 +48,6 @@ export default function command({
 		}
 	} else {
 		sys(`ln -s "${targetPath}" node_modules`)
-	}
-}
-
-function mkdirp(dir) {
-	try {
-		const stats = statSync(dir)
-		return false
-	} catch (e) {
-		sys('mkdir -p "' + dir + '"')
-		return true
 	}
 }
 
