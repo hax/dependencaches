@@ -40,7 +40,7 @@ export default function command({
 	} else if (update) {
 		console.info('updating...')
 		try {
-			sys(`ln -s "${targetPath}" node_modules && npm update`)
+			sys(`ln -s "${targetPath}" node_modules && npm update && chmod -R g+w node_modules`)
 		} catch (e) {
 			console.error(e)
 			sys('rm -rf "' + targetPath + '"')
