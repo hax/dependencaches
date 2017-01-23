@@ -1,6 +1,5 @@
 import {docopt} from 'docopt'
 import {readFileSync} from 'fs'
-import pack from '../package'
 import command from '.'
 
 const options = normalizeOptions(docopt(`
@@ -18,6 +17,7 @@ Options:
 `))
 
 if (options.version) {
+	const pack = JSON.parse(readFileSync(__dirname + '/../package.json', 'utf-8'))
 	console.log(pack.name, pack.version)
 } else {
 	// console.log(options)
