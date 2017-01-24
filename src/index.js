@@ -89,5 +89,5 @@ function sha1(data) {
 
 import {execSync} from 'child_process'
 function sys(cmd) {
-	console.log(execSync(cmd).toString('utf-8'))
+	execSync(cmd, {stdio: 'inherit'})
 }
