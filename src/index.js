@@ -22,36 +22,36 @@ export default function command({
 	const target = joinPath(cacheDirectory, 'npm', hash)
 	const targetPath = joinPath(target, 'node_modules')
 	const storePath = currentStorePath()
-	if (storePath === targetPath) {
-		console.info('no change')
-		return
+	if (storePath === null) {
+		console.warn('not linked')
+	}	else if (storePath === targetPath) {
+		console.info('deps unchanged')
+		if (install) return
+	} else {
+		console.info('deps changed')
 	}
 
-	console.info('deps changed')
 	sys('rm -rf node_modules')
 
 	if (!existsSync(targetPath)) {
-		sys('mkdir -p "' + targetPath + '"')
-		let cmd
-		if (install) cmd = 'install'
-		else if (update) cmd = 'update'
 		console.info('installing...')
-		try {
-			sys(`npm ${cmd} && chmod -R g+w node_modules && mv node_modules "${target}" && ln -s "${targetPath}" node_modules`)
-		} catch (e) {
-			console.error(e)
-			sys('rm -rf "' + targetPath + '"')
-			process.exit(1)
-		}
+		sys(
+			'npm install',
+			'chmod -R g+w node_modules',
+			`mkdir -p "${target}"`,
+			`mv node_modules "${target}"`,
+			`ln -s "${targetPath}" node_modules`,
+		)
 	} else if (update) {
 		console.info('updating...')
-		try {
-			sys(`ln -s "${targetPath}" node_modules && npm update && chmod -R g+w node_modules`)
-		} catch (e) {
-			console.error(e)
-			sys('rm -rf "' + targetPath + '"')
-			process.exit(1)
-		}
+		sys(
+			`cp -R "${targetPath}" .`,
+			'npm update',
+			'chmod -R g+w node_modules',
+			`rm -rf "${targetPath}"`,
+			`mv node_modules "${target}"`,
+			`ln -s "${targetPath}" node_modules`,
+		)
 	} else {
 		sys(`ln -s "${targetPath}" node_modules`)
 	}
@@ -91,6 +91,6 @@ function sha1(data) {
 }
 
 import {execSync} from 'child_process'
-function sys(cmd) {
-	execSync(cmd, {stdio: 'inherit'})
+function sys(...cmd) {
+	execSync(cmd.join(' && '), {stdio: 'inherit'})
 }
