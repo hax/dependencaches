@@ -3,9 +3,11 @@ import {readFileSync, existsSync, realpathSync} from 'fs'
 import {homedir} from 'os'
 
 export default function command({
-	install, update,
+	install,
+	update,
 	cacheDirectory = joinPath(homedir(), '.dependencaches'),
 }) {
+
 	const deps = readDeps()
 	if (deps === null) {
 		console.warn('no package.json')
