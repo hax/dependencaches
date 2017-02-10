@@ -7,7 +7,11 @@ export default function command({
 	cacheDirectory = joinPath(homedir(), '.dependencaches'),
 }) {
 	const deps = readDeps()
-	if (deps == null) return
+	if (deps === null) {
+		console.warn('no package.json')
+		return
+	}
+
 	console.info('package.json found')
 	const s = JSON.stringify(toEntries(deps))
 	// console.log('deps:', s)
@@ -61,14 +65,8 @@ function currentStorePath() {
 }
 
 function readDeps(dir) {
-	let metadata
-	try {
-		metadata = readFileSync('package.json', 'utf-8')
-	} catch (e) {
-		console.info('no package.json')
-		return null
-	}
-	metadata = JSON.parse(metadata)
+	if (!existsSync('package.json')) return null
+	const metadata = JSON.parse(readFileSync('package.json', 'utf-8'))
 	return {
 		dependencies: metadata.dependencies,
 		devDependencies: metadata.devDependencies,
