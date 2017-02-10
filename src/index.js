@@ -9,7 +9,7 @@ export default function command({
 	const deps = readDeps()
 	if (deps == null) return
 	console.info('package.json found')
-	const s = JSON.stringify(toArray(deps))
+	const s = JSON.stringify(toEntries(deps))
 	// console.log('deps:', s)
 	const hash = sha1(s)
 	console.info('hash of deps:', hash)
@@ -77,9 +77,12 @@ function readDeps(dir) {
 	}
 }
 
-function toArray(record) {
+function toEntries(record) {
 	if (record == null || typeof record !== 'object') return record
-	return Object.keys(record).filter(key => record[key] != null).sort().map(key => [key, toArray(record[key])])
+	return Object.keys(record)
+		.filter(key => record[key] != null)
+		.sort()
+		.map(key => [key, toEntries(record[key])])
 }
 
 import {createHash} from 'crypto'
