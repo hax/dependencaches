@@ -1,5 +1,7 @@
 # dependencaches -- Dependencies Caches for npm
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hax/dependencaches.svg)](https://greenkeeper.io/)
+
 ## Why this project
 
 This project have the same goal of [npm-cache](https://github.com/swarajban/npm-cache).
